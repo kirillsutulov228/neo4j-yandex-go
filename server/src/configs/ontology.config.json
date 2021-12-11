@@ -1,0 +1,348 @@
+{
+  "screens": [
+    {
+      "name": "loadingScreen",
+      "description": "Экран загрузки",
+      "events": [
+        {
+          "rel": "hasEvent",
+          "name": "loadingScreen_onLoad",
+          "description": "Событие, срабатывающее при открытии приложения. Отображает текущий статус загрузки, и при её окончании осуществляет переход к главному экрану",
+          "params": [
+            {
+              "name": "loadingStatus",
+              "value": "boolean",
+              "description": "Статус загрузки приложения. True - приложение загружено"
+            },
+            {
+              "name": "progress",
+              "value": "int",
+              "description": "Значение, отражающее процесс загрузки приложения в процентах от 0 до 100"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mapScreen",
+      "description": "Главный экран с картой",
+      "events": [
+        {
+          "rel": "hasEvent",
+          "name": "mapScreen_visible",
+          "description": "Событие, срабатывающее при открытии главного экрана. Отображает карту города с отмеченными на ней точками интереса (магазины, рестораны и т.д.)",
+          "params": []
+        }
+      ]
+    },
+    {
+      "name": "orderScreen",
+      "description": "Экран заказа такси",
+      "events": [
+        {
+          "rel": "hasEvent",
+          "name": "orderScreen_visible",
+          "description": "Событие, срабатывающее при открытии экрана заказа такси. Отображает стоимость заказа, а также тип машины.",
+          "params": [
+            {
+              "name": "car",
+              "value": "string",
+              "description": "Отражает тип машины такси"
+            },
+            {
+              "name": "cost",
+              "value": "int",
+              "description": "Цена заказа такси в рублях"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "authScreen",
+      "description": "Экран авторизации",
+      "events": [
+        {
+          "rel": "hasEvent",
+          "name": "authScreen_visible",
+          "description": "Событие, срабатывающее при открытии экрана авторизации. Отображает меню с возможностью входа в существующий аккаунт и создания нового",
+          "params": []
+        },
+        {
+          "rel": "hasEvent",
+          "name": "authScreen_onAuthComplete",
+          "description": "Событие, срабатывающее при успешной авторизации. Открывает возможности, доступные только для авторизованного пользователя и открывает главный экран",
+          "params": [
+            {
+              "name": "authStatus",
+              "value": "boolean",
+              "description": "True, если авторизация прошла успешно"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "paymentMethodScreen",
+      "description": "Экран выбора метода оплаты заказа",
+      "events": [
+        {
+          "rel": "hasEvent",
+          "name": "paymentMethodScreen_visible",
+          "description": "Событие, срабатывающее при открытии экрана выбора метода оплаты заказа. Отображает всевозможные способы оплаты",
+          "params": [
+            {
+              "name": "paymentMethod",
+              "value": "string",
+              "description": "Строка, отображающая выбранный метод оплаты"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "selectAddressScreen",
+      "description": "Экран выбора пункта назначения",
+      "events": [
+        {
+          "rel": "hasEvent",
+          "name": "selectAddressScreen_visible",
+          "description": "Событие, срабатывающее при открытии экрана выбора пункта назначения. Отображает поле ввода адреса, а также меню выбора возможных точек назначения",
+          "params": []
+        }
+      ]
+    }
+  ],
+  "screenElements": {
+    "Input": [
+      {
+        "name": "addressInput",
+        "parent": "selectAddressScreen",
+        "description": "Поле ввода адреса",
+        "events": [
+          {
+            "rel": "hasEvent",
+            "name": "selectAddressScreen_addressInput_onInput",
+            "description": "При вводе сохраняет значение адреса места назначения",
+            "params": [
+              {
+                "name": "hasGeoLocation",
+                "value": "boolean",
+                "description": "Если значение True, то при вводе показывает подсказки на основе текущего местоположение пользователя"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "loginInput",
+        "parent": "authScreen",
+        "description": "Поле ввода логина",
+        "events": [
+          {
+            "rel": "hasEvent",
+            "name": "authScreen_loginInput_onInput",
+            "description": "При вводе сохраняет значение логина пользователя",
+            "params": []
+          }
+        ]
+      },
+      {
+        "name": "passwordInput",
+        "parent": "authScreen",
+        "description": "Поле ввода пароля",
+        "events": [
+          {
+            "rel": "hasEvent",
+            "name": "authScreen_passwordInput_onInput",
+            "description": "При вводе сохраняет значение пароля пользователя",
+            "params": 
+            [
+              {
+                "name": "showPassword",
+                "value": "boolean",
+                "description": "Отвечает, показывать ли пароль при вводе или заменить его звездочками"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "Button": [
+      {
+        "name": "currentPositionButton",
+        "parent": "mapScreen",
+        "description": "Кнопка перехода на текущую позицию",
+        "events": [
+          {
+            "rel": "hasEvent",
+            "name": "mapScreen_currentPositionButton_onClick",
+            "description": "При нажатии и включенной геолокации осуществляется переход по карте на текущее местоположение пользователя",
+            "params": [
+              {
+                "name": "hasGeoLocation",
+                "value": "boolean",
+                "description": "True - если геолокация включена"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "toSelectAddressScreenButton",
+        "parent": "mapScreen",
+        "description": "Кнопка, открывающая меню выбора места назначения",
+        "events": [
+          {
+            "rel": "hasEvent",
+            "name": "mapScreen_destinationButton_onClick",
+            "description": "При нажатии осуществляет переход на экран выбора пункта назначения",
+            "params": []
+          }
+        ]
+      },
+      {
+        "name": "sidebarButton",
+        "parent": "mapScreen",
+        "description": "Кнопка открытия бокового меню",
+        "events": [
+          {
+            "rel": "hasEvent",
+            "name": "mapScreen_sidebarButton_onClick",
+            "description": "При нажатии открывает боковое меню с дополнительными возможностями",
+            "params": []
+          }
+        ]
+      },
+      {
+        "name": "toAuthScreenButton",
+        "parent": "mapScreen",
+        "description": "Кнопка открытия окна авторизации",
+        "events": [
+          {
+            "rel": "hasEvent",
+            "name": "mapScreen_toAuthButton_onClick",
+            "description": "При нажатии открывает экран авторизации",
+            "params": []
+          }
+        ]
+      },
+      {
+        "name": "loginButton",
+        "parent": "authScreen",
+        "description": "Кнопка входа в аккаунт",
+        "events": [
+          {
+            "rel": "hasEvent",
+            "name": "authScreen_loginButton_onClick",
+            "description": "При нажатии производит попытку авторизации пользователя в системе",
+            "params": 
+            [
+              {
+                "name": "authType",
+                "value": "string",
+                "description": "Тип авторизации. Register - регистрация нового аккаунта. Login - вход в существующий аккаунт"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "selectPaymentMethodButton",
+        "parent": "orderScreen",
+        "description": "Кнопка перехода в меню выбора метода оплаты",
+        "events": [
+          {
+            "rel": "hasEvent",
+            "name": "orderScreen_selectPaymentMethodButton_onClick",
+            "description": "При нажатии переводит пользователя на экран выбора метода оплаты",
+            "params": []
+          }
+        ]
+      },
+      {
+        "name": "acceptOrderButton",
+        "parent": "orderScreen",
+        "description": "Кнопка заказа такси",
+        "events": [
+          {
+            "rel": "hasEvent",
+            "name": "orderScreen_acceptOrderButton_onClick",
+            "description": "При нажатии осуществляет заказ выбранного такси",
+            "params": 
+            [
+              {
+                "name": "hasEnoughMoney",
+                "value": "boolean",
+                "description": "Значение, показывающее, достаточно ли у пользователя денежных средств для вызова такси. Если False, заказ такси не осуществляется"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "voiceInputButton",
+        "parent": "selectAddressScreen",
+        "description": "Кнопка голосового ввода места назначения",
+        "events": [
+          {
+            "rel": "hasEvent",
+            "name": "orderScreen_selectPaymentMethodButton_onToggle",
+            "description": "При удержании производит включение микрофона и распознает речь пользователя, сохраняя сказанный им пункт назначения",
+            "params": []
+          }
+        ]
+      }
+    ],
+    "Select": [
+      {
+        "name": "carSelect",
+        "parent": "orderScreen",
+        "description": "Меню выбора машины такси",
+        "events": [
+          {
+            "rel": "hasEvent",
+            "name": "orderScreen_carSelect_onSelect",
+            "description": "При выборе сохраняет тип машины такси",
+            "params": 
+            [
+              {
+                "name": "car",
+                "value": "string",
+                "description": "Строка, хранящая выбранный тип машины такси"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "paymentMethodSelect",
+        "parent": "paymentMethodScreen",
+        "description": "Список для выбора метода оплаты",
+        "events": [
+          {
+            "rel": "hasEvent",
+            "name": "paymentMethodScreen_paymentMethodSelect_onSelect",
+            "description": "Меню для выбора выбора способа оплаты",
+            "params": 
+            [
+              {
+                "name": "paymentMethod",
+                "value": "string",
+                "description": "Строка, хранящая выбранный способ оплаты"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "scenarios": {
+    "newUser": [
+      "loadingScreen", "mapScreen", "authScreen", "mapScreen", "selectAddressScreen", "paymentMethodScreen", "orderScreen"
+    ],
+    "rememberedUser": [
+      "loadingScreen", "mapScreen", "selectAddressScreen", "orderScreen"
+    ]
+  }
+}
